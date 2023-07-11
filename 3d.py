@@ -12,9 +12,7 @@ import sys
 def make(file,elev,azim):
     fig=plt.figure()
     ax=fig.add_subplot(projection='3d')
-    ax.set_xlabel("x")
-    ax.set_ylabel("y")
-    ax.set_zlabel("depth(distance)")
+    
     
     depth=cv2.imread(file)[:,:,0]
     lenx=depth.shape[0]
@@ -43,9 +41,14 @@ def make(file,elev,azim):
     zarray=np.array(zlist,dtype=np.uint8)
 
 
-    ax.scatter(xarray,yarray,zarray,marker=".",color=colormap)
+    ax.scatter(zarray,xarray,yarray,marker=".",color=colormap)
+    ax.set_xlabel("Depth(distance)")
+    ax.set_ylabel("x")
+    ax.set_zlabel("y")
+    ax.invert_yaxis()
+    ax.invert_zaxis()
 
-    ax.view_init(elev=-90+elev,azim=-90+azim)
+    ax.view_init(elev=0+elev,azim=0+azim)
 
     buf=BytesIO()
     fig.savefig(buf)
